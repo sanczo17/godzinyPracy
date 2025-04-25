@@ -3,6 +3,7 @@ package com.example.godzinypracy
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -54,9 +55,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val RC_SIGN_IN = 9001
-        private const val SPREADSHEET_ID = "1Q2vFanQRkU9c9dJTfAlwXlU4wT5w94_LsECqv6ME-ok" // ID arkusza z URL
+        private const val SPREADSHEET_ID = "1Q2vFanQRkU9c9dJTfAlwXlU4wT5w94_LsECqv6ME-ok" //
     }
-
     private lateinit var dateTextView: TextView
     private lateinit var startTimeEditText: EditText
     private lateinit var endTimeEditText: EditText
@@ -285,10 +285,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Inicjalizacja Sheets API
+    // W funkcji initializeSheetsApi
     private fun initializeSheetsApi(account: GoogleSignInAccount) {
         val credential = GoogleAccountCredential.usingOAuth2(
             this, Collections.singleton(SheetsScopes.SPREADSHEETS))
         credential.selectedAccount = account.account
+
+        // Logowanie informacji o koncie
+        Log.d("SheetsAuth", "Account name: ${account.displayName}")
+        Log.d("SheetsAuth", "Account email: ${account.email}")
 
         sheetsService = Sheets.Builder(
             NetHttpTransport(),
